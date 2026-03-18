@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from google import genai
+import argparse
 
 
 load_dotenv()
@@ -11,9 +12,12 @@ def main():
     if api_key is None:
         raise RuntimeError("API Key Not Provided!")
     client = genai.Client(api_key=api_key)
+    parser = argparse.ArgumentParser(description="Agentic AI Bot")
+    parser.add_argument("user_prompt", type=str, help="Prompt")
+    args = parser.parse_args()
     response = client.models.generate_content(
         model="gemini-2.5-flash",
-        contents="Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum.",
+        contents=args.user_prompt,
     )
     tokens = response.usage_metadata
     if tokens is None:
