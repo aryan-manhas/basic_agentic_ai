@@ -19,6 +19,11 @@ def main():
     # Parse the user prompt into a string type and stores the answer in args
     parser = argparse.ArgumentParser(description="Agentic AI Bot")
     parser.add_argument("user_prompt", type=str, help="Prompt")
+
+    # Adds the option to access more information(Token Information) in the output(also known as "verbose")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
+
+    # Activates the Parser
     args = parser.parse_args()
 
     # User prompt will be saved in a list "message". Right now only the current prompt is saved
@@ -35,9 +40,11 @@ def main():
     if tokens is None:
         RuntimeError("API Request Failed!")
 
-    # Prints the user, model token count & the response received
-    print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
-    print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+    # Prints the user & model token count only if verbose is true & the response received
+    if args.verbose is True:
+        print(f"User prompt: {args.user_prompt}")
+        print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
+        print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
     print(f"Response:\n{response.text}")
 
 
