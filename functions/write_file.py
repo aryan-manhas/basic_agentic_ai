@@ -25,8 +25,10 @@ def write_file(working_directory, file_path, content):
             print(f'Error: Cannot write to "{file_path}" as it is a directory')
             return
 
+        # Makes a directory for every part of the target path if they don't exist
         os.makedirs(os.path.dirname(target_path), exist_ok=True)
 
+        # Open the file in the writing mode and writes the content
         with open(target_path, "w") as f:
             f.write(content)
             print(
